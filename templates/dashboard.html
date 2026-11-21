@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill-Track Dashboard</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #4f46e5;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .profile {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .profile-box {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .profile-box strong {
+            display: block;
+            color: #4f46e5;
+            margin-bottom: 5px;
+        }
+
+        .skill {
+            margin: 18px 0;
+        }
+
+        .skill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .progress-container {
+            background: #e5e7eb;
+            height: 18px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            width: 0%;
+            transition: width 0.4s;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .green {
+            background: #16a34a;
+        }
+
+        .purple {
+            background: #9333ea;
+        }
+
+        .orange {
+            background: #ea580c;
+        }
+
+        .blue {
+            background: #2563eb;
+        }
+
+        .roadmap {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .success {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .skill-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>🎯 Skill-Track Dashboard</h1>
+
+        <p>
+            Your personalized career development dashboard
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- STUDENT PROFILE -->
+
+        {% if student %}
+
+        <div class="card">
+
+            <h2>👤 Student Profile</h2>
+
+            <div class="profile">
+
+                <div class="profile-box">
+
+                    <strong>Target Job</strong>
+
+                    {{ student[3] }}
+
+                </div>
+
+
+                <div class="profile-box">
+
+                    <strong>Experience Level</strong>
+
+                    {{ student[4] }}
+
+                </div>
+
+
+                <div class="profile-box">
+
+                    <strong>Skills</strong>
+
+                    {{ student[1] }}
+
+                </div>
+
+
+                <div class="profile-box">
+
+                    <strong>Projects</strong>
+
+                    {{ student[2] }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="card">
+
+            <h2>No Student Profile Found</h2>
+
+            <p>
+                Please create your career roadmap first.
+            </p>
+
+            <a href="/" class="button">
+                Create Roadmap
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- SKILL PROGRESS -->
+
+        {% if student %}
+
+        <div class="card">
+
+            <h2>📚 Skill Progress</h2>
+
+            <p>
+                Update your progress as you learn each skill.
+            </p>
+
+
+            {% set skills = [
+                "Programming Fundamentals",
+                "Data Structures & Algorithms",
+                "Object-Oriented Programming",
+                "Database / SQL",
+                "Git & GitHub",
+                "Problem Solving",
+                "Communication & Interview Skills"
+            ] %}
+
+
+            {% for skill in skills %}
+
+            <div class="skill">
+
+                <div class="skill-row">
+
+                    <strong>
+                        {{ skill }}
+                    </strong>
+
+
+                    <select
+                        onchange="updateProgress('{{ skill }}', this.value)"
+                    >
+
+                        <option value="Not Started"
+                            {% if progress.get(skill, "Not Started") == "Not Started" %}
+                            selected
+                            {% endif %}
+                        >
+                            Not Started
+                        </option>
+
+
+                        <option value="In Progress"
+                            {% if progress.get(skill) == "In Progress" %}
+                            selected
+                            {% endif %}
+                        >
+                            In Progress
+                        </option>
+
+
+                        <option value="Completed"
+                            {% if progress.get(skill) == "Completed" %}
+                            selected
+                            {% endif %}
+                        >
+                            Completed
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+            <p>
+
+                <strong>
+                    Overall Skill Completion
+                </strong>
+
+            </p>
+
+
+            <div class="progress-container">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+
+            <p id="progressText">
+                0% completed
+            </p>
+
+        </div>
+
+
+        <!-- WEEKLY PLAN -->
+
+        <div class="card">
+
+            <h2>📅 Weekly Learning Plan</h2>
+
+            <p>
+                Generate a personalized 7-day learning plan based
+                on your current skills and career goal.
+            </p>
+
+            <a href="/weekly-plan" class="button">
+
+                🤖 Generate My Weekly Plan
+
+            </a>
+
+        </div>
+
+
+        <!-- RESUME BUILDER -->
+
+        <div class="card">
+
+            <h2>📄 Resume Builder</h2>
+
+            <p>
+                Create a professional, internship-ready resume
+                using your education, skills, projects,
+                experience, and achievements.
+            </p>
+
+            <a href="/resume" class="button green">
+
+                📄 Build My Resume
+
+            </a>
+
+        </div>
+
+
+        <!-- INTERVIEW PREPARATION -->
+
+        <div class="card">
+
+            <h2>🎤 AI Interview Preparation</h2>
+
+            <p>
+                Practice technical, project, and HR interview
+                questions personalized for your target job.
+            </p>
+
+            <a href="/interview" class="button purple">
+
+                🎤 Start Interview Preparation
+
+            </a>
+
+        </div>
+
+
+        <!-- CAREER READINESS -->
+
+        <div class="card">
+
+            <h2>🎯 Career Readiness Score</h2>
+
+            <p>
+                Check how prepared you are for your target career.
+                Your score is based on your skills, projects,
+                roadmap, and career preparation.
+            </p>
+
+            <a href="/readiness" class="button orange">
+
+                🎯 Check My Readiness
+
+            </a>
+
+        </div>
+
+
+        <!-- PROJECTS -->
+
+        <div class="card">
+
+            <h2>🚀 Projects</h2>
+
+            <p>
+                Building projects is one of the best ways to
+                strengthen your resume and technical skills.
+            </p>
+
+            <p>
+                <strong>Your Projects:</strong>
+            </p>
+
+            <p>
+                {{ student[2] }}
+            </p>
+
+        </div>
+
+
+        <!-- AI ROADMAP -->
+
+        <div class="card">
+
+            <h2>🤖 AI Career Roadmap</h2>
+
+            {% if student[5] %}
+
+            <div class="roadmap">
+                {{ student[5] }}
+            </div>
+
+            {% else %}
+
+            <p>
+                No roadmap available.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="card">
+
+            <a href="/" class="button">
+                🏠 Home
+            </a>
+
+            <a href="/dashboard" class="button blue">
+                🔄 Refresh Dashboard
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // -----------------------------
+        // UPDATE PROGRESS
+        // -----------------------------
+
+        function updateProgress(skillName, status) {
+
+            fetch("/update-progress", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    skill_name: skillName,
+
+                    status: status
+
+                })
+
+            })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                if (data.success) {
+
+                    calculateProgress();
+
+                }
+
+                else {
+
+                    alert(data.message);
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error("Error:", error);
+
+            });
+
+        }
+
+
+
+        // -----------------------------
+        // CALCULATE PROGRESS
+        // -----------------------------
+
+        function calculateProgress() {
+
+            const selects =
+                document.querySelectorAll("select");
+
+            let completed = 0;
+
+            selects.forEach(select => {
+
+                if (select.value === "Completed") {
+
+                    completed++;
+
+                }
+
+            });
+
+
+            const total = selects.length;
+
+
+            let percentage = 0;
+
+
+            if (total > 0) {
+
+                percentage =
+                    Math.round((completed / total) * 100);
+
+            }
+
+
+            document.getElementById(
+                "progressBar"
+            ).style.width = percentage + "%";
+
+
+            document.getElementById(
+                "progressText"
+            ).innerText =
+                percentage + "% completed";
+
+        }
+
+
+        // Calculate progress when page loads
+
+        calculateProgress();
+
+
+    </script>
+
+
+</body>
+
+</html>

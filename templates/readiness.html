@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Readiness Score</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #4f46e5;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .score-box {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score {
+            font-size: 60px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .score-label {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .progress-container {
+            background: #e5e7eb;
+            border-radius: 10px;
+            height: 20px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            width: {{ readiness_score }}%;
+        
+
+        .item {
+            margin: 20px 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin-top: 15px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .advice {
+            background: #eef2ff;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .score {
+                font-size: 45px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>🎯 Career Readiness Score</h1>
+
+        <p>
+            See how prepared you are for your target career
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- SCORE -->
+
+        <div class="card score-box">
+
+            <h2>Your Career Readiness</h2>
+
+            <div class="score">
+                {{ readiness_score }}%
+            </div>
+
+            <div class="score-label">
+                {{ readiness_level }}
+            </div>
+
+            <div class="progress-container">
+
+                <div class="progress-bar"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STUDENT PROFILE -->
+
+        {% if student %}
+
+        <div class="card">
+
+            <h2>👤 Your Career Goal</h2>
+
+            <p>
+                <strong>Target Job:</strong>
+                {{ student[3] }}
+            </p>
+
+            <p>
+                <strong>Experience Level:</strong>
+                {{ student[4] }}
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- READINESS BREAKDOWN -->
+
+        <div class="card">
+
+            <h2>📊 Readiness Breakdown</h2>
+
+
+            <div class="item">
+
+                <div class="item-header">
+
+                    <span>📚 Skill Progress</span>
+
+                    <span class="status">
+                        {{ skill_score }}%
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-header">
+
+                    <span>🚀 Projects</span>
+
+                    <span class="status">
+                        {{ project_score }}%
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-header">
+
+                    <span>🗺️ Career Roadmap</span>
+
+                    <span class="status">
+                        {{ roadmap_score }}%
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-header">
+
+                    <span>💼 Career Preparation</span>
+
+                    <span class="status">
+                        {{ preparation_score }}%
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADVICE -->
+
+        <div class="card">
+
+            <h2>💡 What You Should Do Next</h2>
+
+            <div class="advice">
+
+                {% if readiness_score < 40 %}
+
+                    <strong>Beginner Stage 🚀</strong>
+
+                    <p>
+                        Focus on building your programming fundamentals,
+                        learning important technical skills, and completing
+                        small projects.
+                    </p>
+
+                {% elif readiness_score < 70 %}
+
+                    <strong>Good Progress 👍</strong>
+
+                    <p>
+                        You are making good progress. Focus on improving
+                        your problem-solving skills, completing projects,
+                        and preparing for interviews.
+                    </p>
+
+                {% else %}
+
+                    <strong>Interview Ready! 🎉</strong>
+
+                    <p>
+                        You have built a strong foundation. Continue
+                        practicing DSA, improving your projects, and
+                        preparing for real interviews.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="card">
+
+            <a href="/dashboard" class="button">
+                📊 Dashboard
+            </a>
+
+            <a href="/" class="button">
+                🏠 Home
+            </a>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

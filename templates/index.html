@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill-Track 🚀</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0879d9, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .header p {
+            margin-top: 10px;
+            font-size: 17px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 35px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #0879d9;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #0879d9;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .secondary-button {
+            background: #555;
+        }
+
+        .secondary-button:hover {
+            background: #333;
+        }
+
+        /* DASHBOARD BUTTON */
+
+        .dashboard-button {
+            display: block;
+            width: 300px;
+            margin: 25px auto;
+            padding: 14px;
+            text-align: center;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .dashboard-button:hover {
+            background: #219150;
+        }
+
+        .roadmap {
+            margin-top: 35px;
+        }
+
+        .roadmap-title {
+            text-align: center;
+            color: #0879d9;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #f8fbff;
+            border-left: 6px solid #0879d9;
+            padding: 20px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            color: #0879d9;
+            margin-top: 0;
+            white-space: pre-line;
+        }
+
+        .card p {
+            line-height: 1.7;
+            white-space: pre-line;
+            margin-bottom: 0;
+        }
+
+        .skill-gap {
+            border-left-color: #e67e22;
+            background: #fffaf5;
+        }
+
+        .priority {
+            border-left-color: #8e44ad;
+            background: #faf7fc;
+        }
+
+        .projects {
+            border-left-color: #27ae60;
+            background: #f5fcf7;
+        }
+
+        .interview {
+            border-left-color: #16a085;
+            background: #f4fbfa;
+        }
+
+        .advice {
+            border-left-color: #f1c40f;
+            background: #fffdf2;
+        }
+
+        .progress-section,
+        .profile-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: #f8fbff;
+            border-radius: 12px;
+            border: 1px solid #dbe9f5;
+        }
+
+        .progress-title,
+        .profile-title {
+            text-align: center;
+            color: #0879d9;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 25px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #0879d9;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .skill-status {
+            width: auto;
+            margin: 0;
+            padding: 8px;
+        }
+
+        .saved-message {
+            text-align: center;
+            color: #16803c;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffe6e6;
+            color: #b00020;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .skill-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .skill-status {
+                width: 100%;
+            }
+
+            .dashboard-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="header">
+
+        <h1>🚀 Skill-Track</h1>
+
+        <p>
+            AI-Powered Student Career Planner
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <h2>🎯 Build Your Career Roadmap</h2>
+
+
+        <form method="POST" action="/" id="roadmap-form">
+
+            <label for="skills">
+                Current Skills
+            </label>
+
+            <input
+                type="text"
+                id="skills"
+                name="skills"
+                placeholder="Example: C, Python, Java, SQL"
+                required
+            >
+
+
+            <label for="projects">
+                Your Projects
+            </label>
+
+            <textarea
+                id="projects"
+                name="projects"
+                placeholder="Example: Smart Attendance System, Portfolio Website"
+                required
+            ></textarea>
+
+
+            <label for="target_job">
+                Target Job
+            </label>
+
+            <select id="target_job" name="target_job">
+
+                <option value="Software Engineer">
+                    Software Engineer
+                </option>
+
+                <option value="Web Developer">
+                    Web Developer
+                </option>
+
+                <option value="Data Analyst">
+                    Data Analyst
+                </option>
+
+                <option value="Data Scientist">
+                    Data Scientist
+                </option>
+
+                <option value="AI/ML Engineer">
+                    AI/ML Engineer
+                </option>
+
+                <option value="Cybersecurity Engineer">
+                    Cybersecurity Engineer
+                </option>
+
+            </select>
+
+
+            <label for="level">
+                Experience Level
+            </label>
+
+            <select id="level" name="level">
+
+                <option value="Beginner">
+                    Beginner
+                </option>
+
+                <option value="Intermediate">
+                    Intermediate
+                </option>
+
+                <option value="Advanced">
+                    Advanced
+                </option>
+
+            </select>
+
+
+            <button type="submit">
+                Analyze My Skills & Generate Roadmap 🚀
+            </button>
+
+        </form>
+
+
+        {% if roadmap %}
+
+        <div class="roadmap">
+
+            <h2 class="roadmap-title">
+                🤖 AI Skill Analysis & Career Roadmap
+            </h2>
+
+
+            {% set sections = roadmap.split('---') %}
+
+
+            {% for section in sections %}
+
+                {% if section.strip() %}
+
+                {% set lines = section.strip().split('\n') %}
+
+                {% set heading = lines[0] %}
+
+                <div class="card
+                    {% if 'SKILL GAP' in heading %}
+                        skill-gap
+                    {% elif 'PRIORITY' in heading %}
+                        priority
+                    {% elif 'PROJECT' in heading %}
+                        projects
+                    {% elif 'INTERVIEW' in heading %}
+                        interview
+                    {% elif 'FINAL' in heading %}
+                        advice
+                    {% endif %}
+                ">
+
+                    <h3>{{ heading }}</h3>
+
+                    <p>{{ '\n'.join(lines[1:]) }}</p>
+
+                </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- PROGRESS TRACKING -->
+
+        <div class="progress-section">
+
+            <h2 class="progress-title">
+                📊 My Learning Progress
+            </h2>
+
+            <p>
+                Track the skills you are learning for your target career.
+            </p>
+
+            <div id="skills-container"></div>
+
+            <div class="progress-bar-container">
+
+                <div
+                    id="progress-bar"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+            <div
+                id="progress-text"
+                class="progress-text">
+                0% Completed
+            </div>
+
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="resetProgress()">
+
+                Reset Progress
+
+            </button>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- SAVED PROFILE -->
+
+        <div class="profile-section">
+
+            <h2 class="profile-title">
+                💾 My Saved Profile
+            </h2>
+
+            <p>
+                Your profile is automatically saved in this browser.
+            </p>
+
+            <button
+                type="button"
+                onclick="saveProfile()">
+
+                Save My Profile
+
+            </button>
+
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="clearProfile()">
+
+                Clear Saved Profile
+
+            </button>
+
+            <div
+                id="saved-message"
+                class="saved-message">
+            </div>
+
+        </div>
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- DASHBOARD BUTTON -->
+
+    <a
+        href="/dashboard"
+        class="dashboard-button">
+
+        📊 Open Student Dashboard
+
+    </a>
+
+
+    <div class="footer">
+
+        Skill-Track 🚀 | AI Career Planning for Students
+
+    </div>
+
+
+    <script>
+
+        const defaultSkills = [
+            "Programming Fundamentals",
+            "Data Structures & Algorithms",
+            "Object-Oriented Programming",
+            "Database / SQL",
+            "Git & GitHub",
+            "Problem Solving",
+            "Communication & Interview Skills"
+        ];
+
+
+        /* -----------------------------
+           SAVE PROFILE
+        ----------------------------- */
+
+        function saveProfile() {
+
+            const profile = {
+
+                skills:
+                    document.getElementById("skills").value,
+
+                projects:
+                    document.getElementById("projects").value,
+
+                targetJob:
+                    document.getElementById("target_job").value,
+
+                level:
+                    document.getElementById("level").value
+
+            };
+
+
+            localStorage.setItem(
+                "skillTrackProfile",
+                JSON.stringify(profile)
+            );
+
+
+            showSavedMessage(
+                "✅ Profile saved successfully!"
+            );
+
+        }
+
+
+        /* -----------------------------
+           LOAD PROFILE
+        ----------------------------- */
+
+        function loadProfile() {
+
+            const saved =
+                localStorage.getItem(
+                    "skillTrackProfile"
+                );
+
+
+            if (!saved) {
+                return;
+            }
+
+
+            const profile =
+                JSON.parse(saved);
+
+
+            if (profile.skills) {
+
+                document.getElementById("skills").value =
+                    profile.skills;
+
+            }
+
+
+            if (profile.projects) {
+
+                document.getElementById("projects").value =
+                    profile.projects;
+
+            }
+
+
+            if (profile.targetJob) {
+
+                document.getElementById("target_job").value =
+                    profile.targetJob;
+
+            }
+
+
+            if (profile.level) {
+
+                document.getElementById("level").value =
+                    profile.level;
+
+            }
+
+        }
+
+
+        /* -----------------------------
+           CLEAR PROFILE
+        ----------------------------- */
+
+        function clearProfile() {
+
+            localStorage.removeItem(
+                "skillTrackProfile"
+            );
+
+
+            document.getElementById("skills").value = "";
+
+            document.getElementById("projects").value = "";
+
+            document.getElementById("target_job").value =
+                "Software Engineer";
+
+            document.getElementById("level").value =
+                "Beginner";
+
+
+            showSavedMessage(
+                "Profile cleared."
+            );
+
+        }
+
+
+        /* -----------------------------
+           SAVED MESSAGE
+        ----------------------------- */
+
+        function showSavedMessage(message) {
+
+            const element =
+                document.getElementById(
+                    "saved-message"
+                );
+
+
+            element.textContent = message;
+
+
+            setTimeout(function() {
+
+                element.textContent = "";
+
+            }, 3000);
+
+        }
+
+
+        /* -----------------------------
+           PROGRESS TRACKING
+        ----------------------------- */
+
+        function loadSkills() {
+
+            const container =
+                document.getElementById(
+                    "skills-container"
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            let savedProgress =
+                JSON.parse(
+                    localStorage.getItem(
+                        "skillTrackProgress"
+                    )
+                ) || {};
+
+
+            container.innerHTML = "";
+
+
+            defaultSkills.forEach(
+                function(skill, index) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.className =
+                        "skill-item";
+
+
+                    const name =
+                        document.createElement(
+                            "div"
+                        );
+
+                    name.className =
+                        "skill-name";
+
+                    name.textContent =
+                        (index + 1) +
+                        ". " +
+                        skill;
+
+
+                    const select =
+                        document.createElement(
+                            "select"
+                        );
+
+                    select.className =
+                        "skill-status";
+
+
+                    const statuses = [
+                        "Not Started",
+                        "Learning",
+                        "Completed"
+                    ];
+
+
+                    statuses.forEach(
+                        function(status) {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+                            option.value =
+                                status;
+
+                            option.textContent =
+                                status;
+
+
+                            if (
+                                savedProgress[skill]
+                                === status
+                            ) {
+
+                                option.selected =
+                                    true;
+
+                            }
+
+
+                            select.appendChild(
+                                option
+                            );
+
+                        }
+                    );
+
+
+                    select.addEventListener(
+                        "change",
+                        function() {
+
+                            savedProgress[skill] =
+                                select.value;
+
+
+                            localStorage.setItem(
+                                "skillTrackProgress",
+                                JSON.stringify(
+                                    savedProgress
+                                )
+                            );
+
+
+                            updateProgress();
+
+                        }
+                    );
+
+
+                    item.appendChild(name);
+
+                    item.appendChild(select);
+
+                    container.appendChild(item);
+
+                }
+            );
+
+
+            updateProgress();
+
+        }
+
+
+        function updateProgress() {
+
+            const progressBar =
+                document.getElementById(
+                    "progress-bar"
+                );
+
+
+            const progressText =
+                document.getElementById(
+                    "progress-text"
+                );
+
+
+            if (!progressBar || !progressText) {
+                return;
+            }
+
+
+            let savedProgress =
+                JSON.parse(
+                    localStorage.getItem(
+                        "skillTrackProgress"
+                    )
+                ) || {};
+
+
+            let completed = 0;
+
+
+            defaultSkills.forEach(
+                function(skill) {
+
+                    if (
+                        savedProgress[skill]
+                        === "Completed"
+                    ) {
+
+                        completed++;
+
+                    }
+
+                }
+            );
+
+
+            const percentage =
+                Math.round(
+                    (
+                        completed /
+                        defaultSkills.length
+                    ) * 100
+                );
+
+
+            progressBar.style.width =
+                percentage + "%";
+
+
+            progressText.textContent =
+                percentage +
+                "% Completed";
+
+        }
+
+
+        function resetProgress() {
+
+            localStorage.removeItem(
+                "skillTrackProgress"
+            );
+
+
+            loadSkills();
+
+        }
+
+
+        /* Load saved data when page opens */
+
+        loadProfile();
+
+        loadSkills();
+
+    </script>
+
+
+</body>
+
+</html>

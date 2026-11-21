@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill-Track | Resume Builder</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .header {
+            background: #1f3c88;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin-top: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1f3c88;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #1f3c88;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .secondary {
+            background: #555;
+            margin-left: 10px;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .resume-output {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 30px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            border-radius: 8px;
+        }
+
+        .tip {
+            background: #eef4ff;
+            padding: 15px;
+            border-left: 5px solid #1f3c88;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .secondary {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>📄 AI Resume Builder</h1>
+
+        <p>Create an internship-ready resume with AI</p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if not resume %}
+
+        <div class="card">
+
+            <h2>Build Your Resume</h2>
+
+            <div class="tip">
+                Fill in your details below. The AI will organize them into a professional resume.
+            </div>
+
+
+            <form method="POST">
+
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                >
+
+
+                <label>Education</label>
+
+                <textarea
+                    name="education"
+                    placeholder="Example: B.E. Computer Science, VVCE, 2nd Year"
+                    required
+                ></textarea>
+
+
+                <label>Technical Skills</label>
+
+                <textarea
+                    name="skills"
+                    placeholder="Example: C, Java, Python, SQL, HTML, CSS"
+                    required
+                ></textarea>
+
+
+                <label>Projects</label>
+
+                <textarea
+                    name="projects"
+                    placeholder="Describe your projects"
+                ></textarea>
+
+
+                <label>Target Job</label>
+
+                <input
+                    type="text"
+                    name="target_job"
+                    placeholder="Example: Software Engineer"
+                >
+
+
+                <label>Experience</label>
+
+                <textarea
+                    name="experience"
+                    placeholder="Internships, freelance work, college activities, etc."
+                ></textarea>
+
+
+                <label>Achievements</label>
+
+                <textarea
+                    name="achievements"
+                    placeholder="Hackathons, certifications, awards, sports, etc."
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    🤖 Generate My Resume
+                </button>
+
+
+                <a
+                    href="/dashboard"
+                    class="button secondary"
+                >
+                    ← Back to Dashboard
+                </a>
+
+
+            </form>
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="card">
+
+            <h2>✨ Your AI-Generated Resume</h2>
+
+            <div class="resume-output">
+                {{ resume }}
+            </div>
+
+
+            <button
+                onclick="window.print()"
+                class="button"
+            >
+                🖨️ Print / Save as PDF
+            </button>
+
+
+            <a
+                href="/resume"
+                class="button secondary"
+            >
+                🔄 Create Another Resume
+            </a>
+
+
+            <a
+                href="/dashboard"
+                class="button secondary"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weekly Learning Plan | Skill-Track</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #333;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #0879d9, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .header p {
+            margin-top: 10px;
+            font-size: 17px;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 92%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #0879d9;
+            margin-top: 0;
+        }
+
+        /* STUDENT INFO */
+
+        .student-info {
+            background: #f8fbff;
+            padding: 20px;
+            border-left: 5px solid #0879d9;
+            border-radius: 10px;
+            line-height: 1.8;
+        }
+
+        .student-info strong {
+            color: #0056b3;
+        }
+
+        /* PLAN */
+
+        .plan-section {
+            background: #f8fbff;
+            border-left: 6px solid #0879d9;
+            padding: 20px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+        }
+
+        .plan-section h3 {
+            color: #0879d9;
+            margin-top: 0;
+        }
+
+        .plan-section p {
+            line-height: 1.8;
+            white-space: pre-line;
+            margin-bottom: 0;
+        }
+
+        /* ERROR */
+
+        .error {
+            background: #fff2f2;
+            border-left: 6px solid #e74c3c;
+            padding: 20px;
+            border-radius: 10px;
+            color: #c0392b;
+            margin-bottom: 20px;
+        }
+
+        /* BUTTONS */
+
+        .button-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            margin: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .home-button {
+            background: #0879d9;
+        }
+
+        .home-button:hover {
+            background: #0056b3;
+        }
+
+        .dashboard-button {
+            background: #27ae60;
+        }
+
+        .dashboard-button:hover {
+            background: #1e8449;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>📅 Weekly Learning Plan</h1>
+
+    <p>
+        Skill-Track | Your AI-Powered 7-Day Learning Plan
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+{% if student %}
+
+
+<!-- STUDENT INFORMATION -->
+
+<div class="card">
+
+    <h2>👤 Your Learning Profile</h2>
+
+    <div class="student-info">
+
+        <strong>Target Career:</strong>
+
+        {{ student[3] }}
+
+        <br>
+
+        <strong>Experience Level:</strong>
+
+        {{ student[4] }}
+
+        <br>
+
+        <strong>Current Skills:</strong>
+
+        {{ student[1] }}
+
+    </div>
+
+</div>
+
+
+<!-- ERROR -->
+
+{% if error %}
+
+<div class="error">
+
+    ⚠️ {{ error }}
+
+</div>
+
+{% endif %}
+
+
+<!-- AI PLAN -->
+
+{% if plan %}
+
+<div class="card">
+
+    <h2>🤖 Your Personalized Weekly Plan</h2>
+
+    {% set sections = plan.split('---') %}
+
+
+    {% for section in sections %}
+
+        {% if section.strip() %}
+
+            {% set lines = section.strip().split('\n') %}
+
+            {% set heading = lines[0] %}
+
+
+            <div class="plan-section">
+
+                <h3>
+                    {{ heading }}
+                </h3>
+
+                <p>
+                    {{ '\n'.join(lines[1:]) }}
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="card">
+
+    <h2>⏳ Creating Your Plan...</h2>
+
+    <p>
+        Your AI-generated weekly learning plan will appear here.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<!-- NAVIGATION -->
+
+<div class="button-container">
+
+    <a
+        href="/dashboard"
+        class="button dashboard-button">
+
+        📊 Back to Dashboard
+
+    </a>
+
+
+    <a
+        href="/"
+        class="button home-button">
+
+        🏠 Home
+
+    </a>
+
+</div>
+
+
+{% else %}
+
+
+<!-- NO STUDENT -->
+
+<div class="card">
+
+    <h2>📭 No Student Profile Found</h2>
+
+    <p>
+        Please generate your AI career roadmap first.
+    </p>
+
+
+    <div class="button-container">
+
+        <a
+            href="/"
+            class="button home-button">
+
+            🚀 Create Roadmap
+
+        </a>
+
+    </div>
+
+</div>
+
+
+{% endif %}
+
+
+</div>
+
+
+<div class="footer">
+
+    Skill-Track 🚀 | AI-Powered Student Career Planner
+
+</div>
+
+
+</body>
+
+</html>

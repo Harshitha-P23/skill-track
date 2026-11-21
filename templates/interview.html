@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill-Track | Interview Preparation</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .header {
+            background: #1f3c88;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #1f3c88;
+            margin-top: 0;
+        }
+
+        .question {
+            border-left: 5px solid #1f3c88;
+            background: #f8faff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .question h3 {
+            margin-top: 0;
+            color: #1f3c88;
+        }
+
+        .question p {
+            line-height: 1.7;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #1f3c88;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .gray {
+            background: #555;
+            margin-left: 10px;
+        }
+
+        .green {
+            background: #198754;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tip {
+            background: #eef4ff;
+            border-left: 5px solid #1f3c88;
+            padding: 15px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .student-info {
+            background: #f4f7fb;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .gray {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="header">
+
+        <h1>🎤 AI Interview Preparation</h1>
+
+        <p>Practice interviews based on your career goal</p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if student %}
+
+        <div class="card">
+
+            <h2>👩‍💻 Your Interview Profile</h2>
+
+            <div class="student-info">
+
+                <strong>Target Job:</strong>
+                {{ student[3] }}
+
+                <br>
+
+                <strong>Skills:</strong>
+                {{ student[1] }}
+
+                <br>
+
+                <strong>Experience:</strong>
+                {{ student[4] }}
+
+            </div>
+
+        </div>
+
+
+        {% if questions %}
+
+        <div class="card">
+
+            <h2>🧠 Your AI Interview Questions</h2>
+
+            <div class="tip">
+
+                💡 Try answering each question yourself before
+                looking at the suggested answer.
+
+            </div>
+
+
+            {% for section in questions.split('---') %}
+
+            {% if section.strip() %}
+
+            <div class="question">
+
+                {{ section }}
+
+            </div>
+
+            {% endif %}
+
+            {% endfor %}
+
+
+            <a
+                href="/interview"
+                class="button green"
+            >
+                🔄 Generate New Questions
+            </a>
+
+        </div>
+
+        {% else %}
+
+        <div class="card">
+
+            <h2>🚀 Start Interview Preparation</h2>
+
+            <p>
+                Generate personalized technical and HR interview
+                questions based on your target job and skills.
+            </p>
+
+
+            <form method="POST">
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    🤖 Generate Interview Questions
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="card">
+
+            <h2>📚 Interview Tips</h2>
+
+            <ul>
+
+                <li>Understand your projects clearly.</li>
+
+                <li>Revise your programming fundamentals.</li>
+
+                <li>Practice explaining your solutions.</li>
+
+                <li>Be honest about your skill level.</li>
+
+                <li>Prepare a short self-introduction.</li>
+
+                <li>Practice common HR questions.</li>
+
+            </ul>
+
+        </div>
+
+
+        {% else %}
+
+        <div class="card">
+
+            <h2>No Student Profile Found</h2>
+
+            <p>
+                Please create your career roadmap first.
+            </p>
+
+            <a
+                href="/"
+                class="button"
+            >
+                🚀 Create Career Roadmap
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="card">
+
+            <a
+                href="/dashboard"
+                class="button"
+            >
+                ← Dashboard
+            </a>
+
+            <a
+                href="/"
+                class="button gray"
+            >
+                🏠 Home
+            </a>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
